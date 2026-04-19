@@ -485,6 +485,9 @@ def main():
             st.dataframe(tbl, use_container_width=True, hide_index=True)
         
         st.subheader("Distribusi per Kelurahan")
+        
+        # KELUARGA PER KELURAHAN
+        st.markdown("#### Keluarga per Kelurahan")
         kel_data = df_keluarga.groupby(['kelurahan', 'kategori_fm_keluarga']).size().reset_index(name='count')
         kel_data = apply_label(kel_data, 'kelurahan', LABEL_KELURAHAN)
         
@@ -495,6 +498,22 @@ def main():
             st.plotly_chart(fig, use_container_width=True)
         with col2:
             tbl = create_summary_table(kel_data, 'kategori_fm_keluarga', 'count', 'kelurahan')
+            st.dataframe(tbl, use_container_width=True, hide_index=True)
+        
+        st.markdown("---")
+        
+        # PENDUDUK PER KELURAHAN
+        st.markdown("#### Penduduk per Kelurahan")
+        kel_data_pend = df_filtered.groupby(['kelurahan', 'kategori_fm']).size().reset_index(name='count')
+        kel_data_pend = apply_label(kel_data_pend, 'kelurahan', LABEL_KELURAHAN)
+        
+        col1, col2 = st.columns([2, 1])
+        with col1:
+            fig = create_stacked_bar(kel_data_pend, 'kelurahan', 'kategori_fm', 'Penduduk per Kelurahan', orientation='h')
+            fig.update_layout(height=550)
+            st.plotly_chart(fig, use_container_width=True)
+        with col2:
+            tbl = create_summary_table(kel_data_pend, 'kategori_fm', 'count', 'kelurahan')
             st.dataframe(tbl, use_container_width=True, hide_index=True)
     
     # TAB 3: INDIKATOR
