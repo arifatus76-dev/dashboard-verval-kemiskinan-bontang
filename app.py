@@ -16,8 +16,9 @@ import os
 # KONFIGURASI
 # =============================================================================
 
-FILE_CSV = "verval.csv"
+FILE_CSV = "data_verval_kemiskinan.csv"
 KOLOM_NOMOR_KK = "no_keluarga"
+KOLOM_NIK = "nik"
 KOLOM_INDIKATOR = ["ind_1", "ind_2", "ind_3", "ind_4", "ind_5", "ind_6", "ind_7", "ind_8"]
 
 FONT_TITLE = 24
@@ -28,6 +29,7 @@ FONT_PIE_TEXT = 14
 
 CHART_HEIGHT_PIE = 520
 CHART_HEIGHT_BAR = 480
+CHART_HEIGHT_RUMAH = 450
 
 # =============================================================================
 # FUNGSI FORMAT ANGKA INDONESIA
@@ -85,31 +87,6 @@ LABEL_STATUS_KELUARGA = {
     '4': 'Desil 4 (Rentan Miskin)', '5': 'Lainnya'
 }
 
-LABEL_JENIS_KELAMIN = {1: 'Laki-laki', 2: 'Perempuan', '1': 'Laki-laki', '2': 'Perempuan'}
-
-LABEL_STATUS_KAWIN = {
-    1: 'Belum Kawin', 2: 'Kawin/Nikah', 3: 'Cerai Hidup', 4: 'Cerai Mati', 5: 'Nikah Siri',
-    '1': 'Belum Kawin', '2': 'Kawin/Nikah', '3': 'Cerai Hidup', '4': 'Cerai Mati', '5': 'Nikah Siri'
-}
-
-LABEL_IJAZAH = {
-    # Format integer
-    1: 'SD', 2: 'SMP', 3: 'SMA', 4: 'PT', 5: 'Paket A', 6: 'Paket B', 7: 'Paket C', 8: 'Tidak Punya',
-    # Format string tanpa leading zero
-    '1': 'SD', '2': 'SMP', '3': 'SMA', '4': 'PT', '5': 'Paket A', '6': 'Paket B', '7': 'Paket C', '8': 'Tidak Punya',
-    # Format string dengan leading zero
-    '01': 'SD', '02': 'SMP', '03': 'SMA', '04': 'PT', '05': 'Paket A', '06': 'Paket B', '07': 'Paket C', '08': 'Tidak Punya'
-}
-
-LABEL_STATUS_PEKERJAAN = {
-    1: 'Berusaha Sendiri', 2: 'Dibantu Buruh Tidak Tetap', 3: 'Dibantu Buruh Tetap',
-    4: 'Buruh/Karyawan Swasta', 5: 'ASN/TNI/Polri', 6: 'Pekerja Bebas Pertanian',
-    7: 'Pekerja Bebas Non-Pertanian', 8: 'Pekerja Keluarga',
-    '1': 'Berusaha Sendiri', '2': 'Dibantu Buruh Tidak Tetap', '3': 'Dibantu Buruh Tetap',
-    '4': 'Buruh/Karyawan Swasta', '5': 'ASN/TNI/Polri', '6': 'Pekerja Bebas Pertanian',
-    '7': 'Pekerja Bebas Non-Pertanian', '8': 'Pekerja Keluarga'
-}
-
 LABEL_LANTAI = {
     1: 'Marmer/Granit', 2: 'Keramik', 3: 'Parket/Vinil', 4: 'Ubin/Tegel',
     5: 'Kayu Kualitas Tinggi', 6: 'Semen/Bata Merah', 7: 'Bambu/Papan Rendah', 8: 'Tanah', 9: 'Lainnya',
@@ -132,15 +109,12 @@ LABEL_ATAP = {
 }
 
 LABEL_SUMBER_AIR = {
-    # Format dengan leading zero
     '01': 'Air Kemasan Bermerk', '02': 'Air Isi Ulang', '03': 'Ledeng', '04': 'Sumur Bor/Pompa',
     '05': 'Sumur Terlindung', '06': 'Sumur Tak Terlindung', '07': 'Mata Air Terlindung',
     '08': 'Mata Air Tak Terlindung', '09': 'Air Permukaan', '10': 'Air Hujan', '11': 'Lainnya',
-    # Format tanpa leading zero (string)
     '1': 'Air Kemasan Bermerk', '2': 'Air Isi Ulang', '3': 'Ledeng', '4': 'Sumur Bor/Pompa',
     '5': 'Sumur Terlindung', '6': 'Sumur Tak Terlindung', '7': 'Mata Air Terlindung',
     '8': 'Mata Air Tak Terlindung', '9': 'Air Permukaan',
-    # Format integer
     1: 'Air Kemasan Bermerk', 2: 'Air Isi Ulang', 3: 'Ledeng', 4: 'Sumur Bor/Pompa',
     5: 'Sumur Terlindung', 6: 'Sumur Tak Terlindung', 7: 'Mata Air Terlindung',
     8: 'Mata Air Tak Terlindung', 9: 'Air Permukaan', 10: 'Air Hujan', 11: 'Lainnya'
@@ -157,15 +131,12 @@ LABEL_DAYA_LISTRIK = {
 }
 
 LABEL_BAHAN_BAKAR = {
-    # Format dengan leading zero
     '00': 'Tidak Memasak di Rumah', '01': 'Listrik', '02': 'Gas Elpiji 5,5kg/Blue Gas',
     '03': 'Gas Elpiji 12 kg', '04': 'Gas Elpiji 3 kg', '05': 'Gas Kota/Meteran PGN',
     '06': 'Biogas', '07': 'Minyak Tanah', '08': 'Briket', '09': 'Arang', '10': 'Kayu Bakar', '11': 'Lainnya',
-    # Format tanpa leading zero (string)
     '0': 'Tidak Memasak di Rumah', '1': 'Listrik', '2': 'Gas Elpiji 5,5kg/Blue Gas',
     '3': 'Gas Elpiji 12 kg', '4': 'Gas Elpiji 3 kg', '5': 'Gas Kota/Meteran PGN',
     '6': 'Biogas', '7': 'Minyak Tanah', '8': 'Briket', '9': 'Arang',
-    # Format integer
     0: 'Tidak Memasak di Rumah', 1: 'Listrik', 2: 'Gas Elpiji 5,5kg/Blue Gas',
     3: 'Gas Elpiji 12 kg', 4: 'Gas Elpiji 3 kg', 5: 'Gas Kota/Meteran PGN',
     6: 'Biogas', 7: 'Minyak Tanah', 8: 'Briket', 9: 'Arang', 10: 'Kayu Bakar', 11: 'Lainnya'
@@ -189,6 +160,33 @@ WARNA_PALETTE = ['#2ECC71', '#3498DB', '#F39C12', '#9B59B6', '#1ABC9C', '#E67E22
 WARNA_DESIL = ['#C0392B', '#E74C3C', '#F39C12', '#F1C40F', '#3498DB']
 
 # =============================================================================
+# FUNGSI HELPER
+# =============================================================================
+
+def apply_label(df, col, label_map):
+    """Apply label mapping ke kolom"""
+    df = df.copy()
+    df[col] = df[col].map(label_map).fillna(df[col])
+    return df
+
+def create_summary_table(stacked_data, kategori_col, value_col, name_col):
+    """Buat tabel summary dari data stacked bar"""
+    summary = stacked_data.pivot_table(index=name_col, columns=kategori_col, values=value_col, aggfunc='sum', fill_value=0).reset_index()
+    
+    if 'Fakir Miskin' in summary.columns and 'Bukan Fakir Miskin' in summary.columns:
+        summary['Total'] = summary['Fakir Miskin'] + summary['Bukan Fakir Miskin']
+        summary = summary.sort_values('Total', ascending=False)
+        total_all = summary['Total'].sum()
+        summary['%'] = summary['Total'].apply(lambda x: format_persen_id(x/total_all*100, 2) if total_all > 0 else '0%')
+        summary['FM'] = summary['Fakir Miskin'].apply(lambda x: format_angka_id(x))
+        summary['Bukan FM'] = summary['Bukan Fakir Miskin'].apply(lambda x: format_angka_id(x))
+        summary['Total'] = summary['Total'].apply(lambda x: format_angka_id(x))
+        
+        result = summary[[name_col, 'Total', 'FM', 'Bukan FM', '%']]
+        return result
+    return summary
+
+# =============================================================================
 # FUNGSI LOAD DATA
 # =============================================================================
 
@@ -204,6 +202,13 @@ def load_data():
             return None
     
     df = pd.read_csv(file_path, dtype=str, low_memory=False)
+    
+    if KOLOM_NIK in df.columns:
+        before_count = len(df)
+        df = df.drop_duplicates(subset=[KOLOM_NIK], keep='first')
+        after_count = len(df)
+        if before_count != after_count:
+            st.info(f"ℹ️ Ditemukan {before_count - after_count} data penduduk duplikat (berdasarkan NIK) yang telah dibersihkan.")
     
     for col in ['umur', 'jumlah_art_kk', 'jumlah_indikator']:
         if col in df.columns:
@@ -225,37 +230,14 @@ def get_keluarga_data(df):
         return pd.DataFrame()
     
     df_kel = df.drop_duplicates(subset=KOLOM_NOMOR_KK).copy()
+    
     keluarga_fm = df.groupby(KOLOM_NOMOR_KK)['kategori_fm'].apply(
-        lambda x: 'Fakir Miskin' if 'Fakir Miskin' in x.values else 'Bukan Fakir Miskin'
+        lambda x: 'Fakir Miskin' if (x == 'Fakir Miskin').any() else 'Bukan Fakir Miskin'
     ).reset_index()
     keluarga_fm.columns = [KOLOM_NOMOR_KK, 'kategori_fm_keluarga']
     df_kel = df_kel.merge(keluarga_fm, on=KOLOM_NOMOR_KK, how='left')
-    return df_kel
-
-# =============================================================================
-# FUNGSI HELPER
-# =============================================================================
-
-def create_summary_table(stacked_data, kategori_col, value_col, name_col):
-    """Buat tabel summary dari data stacked bar"""
-    summary = stacked_data.pivot_table(index=name_col, columns=kategori_col, values=value_col, aggfunc='sum', fill_value=0).reset_index()
     
-    if 'Fakir Miskin' in summary.columns and 'Bukan Fakir Miskin' in summary.columns:
-        summary['Total'] = summary['Fakir Miskin'] + summary['Bukan Fakir Miskin']
-        summary = summary.sort_values('Total', ascending=False)
-        total_all = summary['Total'].sum()
-        summary['%'] = summary['Total'].apply(lambda x: format_persen_id(x/total_all*100, 2) if total_all > 0 else '0%')
-        summary['FM'] = summary['Fakir Miskin'].apply(lambda x: format_angka_id(x))
-        summary['Bukan FM'] = summary['Bukan Fakir Miskin'].apply(lambda x: format_angka_id(x))
-        summary['Total'] = summary['Total'].apply(lambda x: format_angka_id(x))
-        return summary[[name_col, 'Total', 'FM', 'Bukan FM', '%']]
-    return summary
-
-def apply_label(df, col, label_map):
-    """Apply label mapping ke kolom"""
-    df = df.copy()
-    df[col] = df[col].map(label_map).fillna(df[col])
-    return df
+    return df_kel
 
 # =============================================================================
 # FUNGSI VISUALISASI
@@ -286,9 +268,11 @@ def create_stacked_bar(df, x_col, color_col, title, orientation='v', y_col='coun
     color_map = {'Fakir Miskin': WARNA_FM, 'Bukan Fakir Miskin': WARNA_BFM}
     
     if orientation == 'v':
-        fig = px.bar(df, x=x_col, y=y_col, color=color_col, title=title, color_discrete_map=color_map, barmode='stack')
+        fig = px.bar(df, x=x_col, y=y_col, color=color_col, title=title, 
+                     color_discrete_map=color_map, barmode='stack')
     else:
-        fig = px.bar(df, y=x_col, x=y_col, color=color_col, title=title, color_discrete_map=color_map, barmode='stack', orientation='h')
+        fig = px.bar(df, y=x_col, x=y_col, color=color_col, title=title, 
+                     color_discrete_map=color_map, barmode='stack', orientation='h')
     
     fig.update_layout(
         title_font_size=FONT_TITLE, legend_title_text='Kategori', legend_font_size=FONT_LEGEND,
@@ -334,6 +318,7 @@ def main():
     st.set_page_config(page_title="Dashboard Verval Kemiskinan - Kota Bontang 2025",
                        page_icon="📊", layout="wide", initial_sidebar_state="expanded")
     
+    # Custom CSS
     st.markdown("""
     <style>
     .stMetricValue { font-size: 28px !important; }
@@ -343,6 +328,8 @@ def main():
     .stMarkdown h1 { font-size: 36px !important; }
     .stMarkdown h2 { font-size: 28px !important; }
     .stMarkdown h3 { font-size: 22px !important; }
+    .stSelectbox label { font-size: 16px !important; font-weight: bold !important; }
+    .stSelectbox div { font-size: 14px !important; }
     </style>
     """, unsafe_allow_html=True)
     
@@ -353,7 +340,13 @@ def main():
     if df is None:
         st.stop()
     
-    # SIDEBAR
+    # Tampilkan informasi data
+    with st.expander("ℹ️ Informasi Data", expanded=False):
+        col1, col2 = st.columns(2)
+        col1.metric("Total Data Penduduk (Unique NIK)", format_angka_id(len(df)))
+        col2.metric("Total Data Keluarga (Unique KK)", format_angka_id(df[KOLOM_NOMOR_KK].nunique()))
+    
+    # SIDEBAR FILTER
     st.sidebar.header("🔍 Filter Data")
     
     kecamatan_list = ['Semua'] + sorted(df['kecamatan'].dropna().unique().tolist())
@@ -373,6 +366,7 @@ def main():
     kategori_list = ['Semua', 'Fakir Miskin', 'Bukan Fakir Miskin']
     selected_kategori = st.sidebar.selectbox("Kategori FM", kategori_list)
     
+    # Filter data
     df_filtered = df.copy()
     if selected_kec != 'Semua':
         df_filtered = df_filtered[df_filtered['kecamatan'] == selected_kec]
@@ -383,47 +377,53 @@ def main():
     
     df_keluarga = get_keluarga_data(df_filtered)
     
+    # Hitung metrik untuk filtered data
+    total_penduduk = len(df_filtered)
+    total_keluarga = df_filtered[KOLOM_NOMOR_KK].nunique()
+    fm_penduduk = len(df_filtered[df_filtered['kategori_fm'] == 'Fakir Miskin']) if total_penduduk > 0 else 0
+    fm_keluarga = len(df_keluarga[df_keluarga['kategori_fm_keluarga'] == 'Fakir Miskin']) if len(df_keluarga) > 0 else 0
+    
     st.sidebar.markdown("---")
-    st.sidebar.info(f"**Penduduk:** {format_angka_id(len(df_filtered))}\n\n**Keluarga:** {format_angka_id(len(df_keluarga))}")
+    st.sidebar.info(f"**Penduduk:** {format_angka_id(total_penduduk)}\n\n**Keluarga:** {format_angka_id(total_keluarga)}")
     
     # METRICS
     col1, col2, col3, col4 = st.columns(4)
-    total_kel = len(df_keluarga)
-    fm_kel = len(df_keluarga[df_keluarga['kategori_fm_keluarga'] == 'Fakir Miskin']) if total_kel > 0 else 0
-    total_pend = len(df_filtered)
-    fm_pend = len(df_filtered[df_filtered['kategori_fm'] == 'Fakir Miskin']) if total_pend > 0 else 0
+    col1.metric("Total Keluarga", format_angka_id(total_keluarga))
+    col2.metric("Keluarga FM", format_angka_id(fm_keluarga), 
+                format_persen_id(fm_keluarga/total_keluarga*100, 1) if total_keluarga > 0 else "0%")
+    col3.metric("Total Penduduk", format_angka_id(total_penduduk))
+    col4.metric("Penduduk FM", format_angka_id(fm_penduduk), 
+                format_persen_id(fm_penduduk/total_penduduk*100, 1) if total_penduduk > 0 else "0%")
     
-    col1.metric("Total Keluarga", format_angka_id(total_kel))
-    col2.metric("Keluarga FM", format_angka_id(fm_kel), format_persen_id(fm_kel/total_kel*100, 1) if total_kel > 0 else "0%")
-    col3.metric("Total Penduduk", format_angka_id(total_pend))
-    col4.metric("Penduduk FM", format_angka_id(fm_pend), format_persen_id(fm_pend/total_pend*100, 1) if total_pend > 0 else "0%")
-    
-    # TABS
-    tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
-        "📊 Ringkasan", "🗺️ Wilayah", "📋 Indikator", "👥 Demografi", 
+    # TABS (Demografi dihapus)
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+        "📊 Ringkasan", "🗺️ Wilayah", "📋 Indikator", 
         "🏠 Kondisi Rumah", "💰 Bantuan Sosial", "📝 Kebutuhan Layanan"
     ])
     
+    # =========================================================================
     # TAB 1: RINGKASAN
+    # =========================================================================
     with tab1:
         col1, col2 = st.columns(2)
         with col1:
             fig = create_pie_simple(['Fakir Miskin', 'Bukan Fakir Miskin'], 
-                                   [fm_kel, total_kel - fm_kel], 'Distribusi Keluarga', [WARNA_FM, WARNA_BFM])
+                                   [fm_keluarga, total_keluarga - fm_keluarga], 'Distribusi Keluarga', [WARNA_FM, WARNA_BFM])
             st.plotly_chart(fig, use_container_width=True)
             tbl = pd.DataFrame({'Kategori': ['Fakir Miskin', 'Bukan Fakir Miskin'], 
-                               'Jumlah': [format_angka_id(fm_kel), format_angka_id(total_kel - fm_kel)],
-                               'Persentase': [format_persen_id(fm_kel/total_kel*100, 2) if total_kel > 0 else '0%', 
-                                             format_persen_id((total_kel-fm_kel)/total_kel*100, 2) if total_kel > 0 else '0%']})
+                               'Jumlah': [format_angka_id(fm_keluarga), format_angka_id(total_keluarga - fm_keluarga)],
+                               'Persentase': [format_persen_id(fm_keluarga/total_keluarga*100, 2) if total_keluarga > 0 else '0%', 
+                                             format_persen_id((total_keluarga-fm_keluarga)/total_keluarga*100, 2) if total_keluarga > 0 else '0%']})
             st.dataframe(tbl, use_container_width=True, hide_index=True)
+        
         with col2:
             fig = create_pie_simple(['Fakir Miskin', 'Bukan Fakir Miskin'],
-                                   [fm_pend, total_pend - fm_pend], 'Distribusi Penduduk', [WARNA_FM, WARNA_BFM])
+                                   [fm_penduduk, total_penduduk - fm_penduduk], 'Distribusi Penduduk', [WARNA_FM, WARNA_BFM])
             st.plotly_chart(fig, use_container_width=True)
             tbl = pd.DataFrame({'Kategori': ['Fakir Miskin', 'Bukan Fakir Miskin'], 
-                               'Jumlah': [format_angka_id(fm_pend), format_angka_id(total_pend - fm_pend)],
-                               'Persentase': [format_persen_id(fm_pend/total_pend*100, 2) if total_pend > 0 else '0%', 
-                                             format_persen_id((total_pend-fm_pend)/total_pend*100, 2) if total_pend > 0 else '0%']})
+                               'Jumlah': [format_angka_id(fm_penduduk), format_angka_id(total_penduduk - fm_penduduk)],
+                               'Persentase': [format_persen_id(fm_penduduk/total_penduduk*100, 2) if total_penduduk > 0 else '0%', 
+                                             format_persen_id((total_penduduk-fm_penduduk)/total_penduduk*100, 2) if total_penduduk > 0 else '0%']})
             st.dataframe(tbl, use_container_width=True, hide_index=True)
         
         if 'status_keluarga' in df_keluarga.columns:
@@ -431,7 +431,7 @@ def main():
             desil_data = df_keluarga['status_keluarga'].value_counts().reset_index()
             desil_data.columns = ['Status', 'Jumlah']
             desil_data['Status'] = desil_data['Status'].map(LABEL_STATUS_KELUARGA).fillna(desil_data['Status'])
-            desil_data['Persentase'] = desil_data['Jumlah'] / total_kel * 100
+            desil_data['Persentase'] = desil_data['Jumlah'] / total_keluarga * 100
             
             col1, col2 = st.columns([2, 1])
             with col1:
@@ -453,20 +453,17 @@ def main():
             fig = px.bar(hist_data, x='Jumlah Indikator', y='Jumlah Penduduk', color='Kategori',
                         color_discrete_map={'Fakir Miskin': WARNA_FM, 'Bukan Fakir Miskin': WARNA_BFM})
             fig.add_vline(x=5.5, line_dash="dash", line_color="red", annotation_text="Batas FM (≥6)")
-            fig.update_layout(
-                title_text='',  # Kosongkan title untuk menghilangkan undefined
-                font_size=FONT_TICK, 
-                legend_font_size=FONT_LEGEND,
-                xaxis_title='Jumlah Indikator',
-                yaxis_title='Jumlah Penduduk'
-            )
+            fig.update_layout(title_text='', font_size=FONT_TICK, legend_font_size=FONT_LEGEND,
+                             xaxis_title='Jumlah Indikator', yaxis_title='Jumlah Penduduk')
             st.plotly_chart(fig, use_container_width=True)
             
             tbl = hist_data.copy()
             tbl['Jumlah Penduduk'] = tbl['Jumlah Penduduk'].apply(lambda x: format_angka_id(x))
             st.dataframe(tbl, use_container_width=True, hide_index=True)
     
+    # =========================================================================
     # TAB 2: WILAYAH
+    # =========================================================================
     with tab2:
         col1, col2 = st.columns(2)
         with col1:
@@ -486,7 +483,6 @@ def main():
         
         st.subheader("Distribusi per Kelurahan")
         
-        # KELUARGA PER KELURAHAN
         st.markdown("#### Keluarga per Kelurahan")
         kel_data = df_keluarga.groupby(['kelurahan', 'kategori_fm_keluarga']).size().reset_index(name='count')
         kel_data = apply_label(kel_data, 'kelurahan', LABEL_KELURAHAN)
@@ -502,7 +498,6 @@ def main():
         
         st.markdown("---")
         
-        # PENDUDUK PER KELURAHAN
         st.markdown("#### Penduduk per Kelurahan")
         kel_data_pend = df_filtered.groupby(['kelurahan', 'kategori_fm']).size().reset_index(name='count')
         kel_data_pend = apply_label(kel_data_pend, 'kelurahan', LABEL_KELURAHAN)
@@ -516,7 +511,9 @@ def main():
             tbl = create_summary_table(kel_data_pend, 'kategori_fm', 'count', 'kelurahan')
             st.dataframe(tbl, use_container_width=True, hide_index=True)
     
-    # TAB 3: INDIKATOR
+    # =========================================================================
+    # TAB 3: INDIKATOR (Tanpa Total)
+    # =========================================================================
     with tab3:
         st.markdown("### 📌 Logika Klasifikasi\n**Penduduk FM:** ≥ 6 dari 8 indikator | **Keluarga FM:** Min. 1 anggota FM")
         fig = create_indicator_chart(df_filtered, "Distribusi 8 Indikator Kemiskinan")
@@ -534,169 +531,89 @@ def main():
                     'Tidak': format_angka_id(t), 
                     'Persentase': format_persen_id(p, 2)
                 })
-        st.dataframe(pd.DataFrame(ind_summary), use_container_width=True, hide_index=True)
+        ind_df = pd.DataFrame(ind_summary)
+        st.dataframe(ind_df, use_container_width=True, hide_index=True)
+        st.caption(f"✅ **Total penduduk yang dianalisis:** {format_angka_id(len(df_filtered))}")
     
-    # TAB 4: DEMOGRAFI
+    # =========================================================================
+    # TAB 4: KONDISI RUMAH - DENGAN DROPDOWN
+    # =========================================================================
     with tab4:
-        col1, col2 = st.columns(2)
-        with col1:
-            st.subheader("Jenis Kelamin")
-            if 'jenis_kelamin' in df_filtered.columns:
-                data = df_filtered.groupby(['jenis_kelamin', 'kategori_fm']).size().reset_index(name='count')
-                data = apply_label(data, 'jenis_kelamin', LABEL_JENIS_KELAMIN)
-                fig = create_stacked_bar(data, 'jenis_kelamin', 'kategori_fm', 'Jenis Kelamin')
-                st.plotly_chart(fig, use_container_width=True)
-                tbl = create_summary_table(data, 'kategori_fm', 'count', 'jenis_kelamin')
-                st.dataframe(tbl, use_container_width=True, hide_index=True)
-        with col2:
-            st.subheader("Status Perkawinan")
-            if 'status_kawin' in df_filtered.columns:
-                data = df_filtered.groupby(['status_kawin', 'kategori_fm']).size().reset_index(name='count')
-                data = apply_label(data, 'status_kawin', LABEL_STATUS_KAWIN)
-                fig = create_stacked_bar(data, 'status_kawin', 'kategori_fm', 'Status Perkawinan')
-                st.plotly_chart(fig, use_container_width=True)
-                tbl = create_summary_table(data, 'kategori_fm', 'count', 'status_kawin')
-                st.dataframe(tbl, use_container_width=True, hide_index=True)
+        st.info(f"🏠 **Total Keluarga:** {format_angka_id(total_keluarga)} | **Fakir Miskin:** {format_angka_id(fm_keluarga)} | **Bukan Fakir Miskin:** {format_angka_id(total_keluarga - fm_keluarga)}")
         
-        col3, col4 = st.columns(2)
-        with col3:
-            st.subheader("Kelompok Umur")
-            if 'umur' in df_filtered.columns:
-                df_temp = df_filtered.copy()
-                df_temp['kelompok_umur'] = pd.cut(df_temp['umur'], bins=[0,5,15,25,35,45,55,65,200],
-                                                  labels=['0-4','5-14','15-24','25-34','35-44','45-54','55-64','65+'], right=False)
-                data = df_temp.groupby(['kelompok_umur', 'kategori_fm']).size().reset_index(name='count')
-                fig = create_stacked_bar(data, 'kelompok_umur', 'kategori_fm', 'Kelompok Umur')
-                st.plotly_chart(fig, use_container_width=True)
-                tbl = create_summary_table(data, 'kategori_fm', 'count', 'kelompok_umur')
-                st.dataframe(tbl, use_container_width=True, hide_index=True)
-        with col4:
-            st.subheader("Ijazah Tertinggi")
-            if 'ijazah_tertinggi' in df_filtered.columns:
-                data = df_filtered.groupby(['ijazah_tertinggi', 'kategori_fm']).size().reset_index(name='count')
-                data = apply_label(data, 'ijazah_tertinggi', LABEL_IJAZAH)
-                fig = create_stacked_bar(data, 'ijazah_tertinggi', 'kategori_fm', 'Ijazah Tertinggi')
-                st.plotly_chart(fig, use_container_width=True)
-                tbl = create_summary_table(data, 'kategori_fm', 'count', 'ijazah_tertinggi')
-                st.dataframe(tbl, use_container_width=True, hide_index=True)
+        # Dropdown untuk memilih kondisi rumah
+        rumah_options = {
+            "Jenis Lantai": "jenis_lantai",
+            "Jenis Dinding": "jenis_dinding",
+            "Jenis Atap": "jenis_atap",
+            "Sumber Penerangan": "sumber_penerangan",
+            "Daya Listrik": "daya_listrik",
+            "Fasilitas BAB": "fasilitas_bab",
+            "Sumber Air Minum": "sumber_air",
+            "Bahan Bakar Memasak": "bahan_bakar"
+        }
         
-        st.subheader("Status Pekerjaan")
-        if 'status_pekerjaan' in df_filtered.columns:
-            data = df_filtered.groupby(['status_pekerjaan', 'kategori_fm']).size().reset_index(name='count')
-            data = apply_label(data, 'status_pekerjaan', LABEL_STATUS_PEKERJAAN)
+        selected_rumah = st.selectbox(
+            "🏚️ Pilih Kondisi Rumah",
+            list(rumah_options.keys()),
+            format_func=lambda x: f"🏠 {x}"
+        )
+        
+        kolom_rumah = rumah_options[selected_rumah]
+        
+        st.markdown("---")
+        
+        # Label map untuk kondisi rumah
+        label_map_rumah = None
+        if kolom_rumah == "jenis_lantai":
+            label_map_rumah = LABEL_LANTAI
+        elif kolom_rumah == "jenis_dinding":
+            label_map_rumah = LABEL_DINDING
+        elif kolom_rumah == "jenis_atap":
+            label_map_rumah = LABEL_ATAP
+        elif kolom_rumah == "sumber_penerangan":
+            label_map_rumah = LABEL_PENERANGAN
+        elif kolom_rumah == "daya_listrik":
+            label_map_rumah = LABEL_DAYA_LISTRIK
+        elif kolom_rumah == "fasilitas_bab":
+            label_map_rumah = LABEL_FASILITAS_BAB
+        elif kolom_rumah == "sumber_air":
+            label_map_rumah = LABEL_SUMBER_AIR
+        elif kolom_rumah == "bahan_bakar":
+            label_map_rumah = LABEL_BAHAN_BAKAR
+        
+        if kolom_rumah in df_keluarga.columns:
+            data_valid = df_keluarga[df_keluarga[kolom_rumah].notna()]
             
-            col1, col2 = st.columns([2, 1])
-            with col1:
-                fig = create_stacked_bar(data, 'status_pekerjaan', 'kategori_fm', 'Status Pekerjaan', orientation='h')
+            if len(data_valid) > 0:
+                data = data_valid.groupby([kolom_rumah, 'kategori_fm_keluarga']).size().reset_index(name='count')
+                data = apply_label(data, kolom_rumah, label_map_rumah)
+                
+                fig = create_stacked_bar(data, kolom_rumah, 'kategori_fm_keluarga', f'{selected_rumah}', orientation='h')
+                fig.update_layout(height=CHART_HEIGHT_RUMAH)
                 st.plotly_chart(fig, use_container_width=True)
-            with col2:
-                tbl = create_summary_table(data, 'kategori_fm', 'count', 'status_pekerjaan')
-                st.dataframe(tbl, use_container_width=True, hide_index=True)
+                
+                summary = data.pivot_table(index=kolom_rumah, columns='kategori_fm_keluarga', values='count', aggfunc='sum', fill_value=0).reset_index()
+                if 'Fakir Miskin' in summary.columns and 'Bukan Fakir Miskin' in summary.columns:
+                    summary['Total'] = summary['Fakir Miskin'] + summary['Bukan Fakir Miskin']
+                    summary = summary.sort_values('Total', ascending=False)
+                    total_all = summary['Total'].sum()
+                    summary['%'] = summary['Total'].apply(lambda x: format_persen_id(x/total_all*100, 2) if total_all > 0 else '0%')
+                    summary['FM'] = summary['Fakir Miskin'].apply(lambda x: format_angka_id(x))
+                    summary['Bukan FM'] = summary['Bukan Fakir Miskin'].apply(lambda x: format_angka_id(x))
+                    summary['Total'] = summary['Total'].apply(lambda x: format_angka_id(x))
+                    st.dataframe(summary[[kolom_rumah, 'Total', 'FM', 'Bukan FM', '%']], use_container_width=True, hide_index=True)
+                
+                st.caption(f"ℹ️ Berdasarkan data valid: {format_angka_id(len(data_valid))} dari {format_angka_id(total_keluarga)} keluarga")
+            else:
+                st.warning(f"Tidak ada data valid untuk {selected_rumah}")
+        else:
+            st.warning(f"Kolom '{kolom_rumah}' tidak ditemukan dalam data")
     
-    # TAB 5: KONDISI RUMAH - SEMUA DENGAN KATEGORI FM
+    # =========================================================================
+    # TAB 5: BANTUAN SOSIAL (Tanpa Total)
+    # =========================================================================
     with tab5:
-        # JENIS LANTAI
-        st.subheader("Jenis Lantai")
-        if 'jenis_lantai' in df_keluarga.columns:
-            data = df_keluarga.groupby(['jenis_lantai', 'kategori_fm_keluarga']).size().reset_index(name='count')
-            data = apply_label(data, 'jenis_lantai', LABEL_LANTAI)
-            col1, col2 = st.columns([2, 1])
-            with col1:
-                fig = create_stacked_bar(data, 'jenis_lantai', 'kategori_fm_keluarga', 'Jenis Lantai', orientation='h')
-                st.plotly_chart(fig, use_container_width=True)
-            with col2:
-                tbl = create_summary_table(data, 'kategori_fm_keluarga', 'count', 'jenis_lantai')
-                st.dataframe(tbl, use_container_width=True, hide_index=True)
-        
-        st.markdown("---")
-        
-        # JENIS DINDING
-        st.subheader("Jenis Dinding")
-        if 'jenis_dinding' in df_keluarga.columns:
-            data = df_keluarga.groupby(['jenis_dinding', 'kategori_fm_keluarga']).size().reset_index(name='count')
-            data = apply_label(data, 'jenis_dinding', LABEL_DINDING)
-            col1, col2 = st.columns([2, 1])
-            with col1:
-                fig = create_stacked_bar(data, 'jenis_dinding', 'kategori_fm_keluarga', 'Jenis Dinding', orientation='h')
-                st.plotly_chart(fig, use_container_width=True)
-            with col2:
-                tbl = create_summary_table(data, 'kategori_fm_keluarga', 'count', 'jenis_dinding')
-                st.dataframe(tbl, use_container_width=True, hide_index=True)
-        
-        st.markdown("---")
-        
-        # JENIS ATAP & SUMBER PENERANGAN
-        col1, col2 = st.columns(2)
-        with col1:
-            st.subheader("Jenis Atap")
-            if 'jenis_atap' in df_keluarga.columns:
-                data = df_keluarga.groupby(['jenis_atap', 'kategori_fm_keluarga']).size().reset_index(name='count')
-                data = apply_label(data, 'jenis_atap', LABEL_ATAP)
-                fig = create_stacked_bar(data, 'jenis_atap', 'kategori_fm_keluarga', 'Jenis Atap', orientation='h')
-                st.plotly_chart(fig, use_container_width=True)
-                tbl = create_summary_table(data, 'kategori_fm_keluarga', 'count', 'jenis_atap')
-                st.dataframe(tbl, use_container_width=True, hide_index=True)
-        
-        with col2:
-            st.subheader("Sumber Penerangan")
-            if 'sumber_penerangan' in df_keluarga.columns:
-                data = df_keluarga.groupby(['sumber_penerangan', 'kategori_fm_keluarga']).size().reset_index(name='count')
-                data = apply_label(data, 'sumber_penerangan', LABEL_PENERANGAN)
-                fig = create_stacked_bar(data, 'sumber_penerangan', 'kategori_fm_keluarga', 'Sumber Penerangan', orientation='h')
-                st.plotly_chart(fig, use_container_width=True)
-                tbl = create_summary_table(data, 'kategori_fm_keluarga', 'count', 'sumber_penerangan')
-                st.dataframe(tbl, use_container_width=True, hide_index=True)
-        
-        st.markdown("---")
-        
-        # DAYA LISTRIK & FASILITAS BAB
-        col1, col2 = st.columns(2)
-        with col1:
-            st.subheader("Daya Listrik")
-            if 'daya_listrik' in df_keluarga.columns:
-                data = df_keluarga.groupby(['daya_listrik', 'kategori_fm_keluarga']).size().reset_index(name='count')
-                data = apply_label(data, 'daya_listrik', LABEL_DAYA_LISTRIK)
-                fig = create_stacked_bar(data, 'daya_listrik', 'kategori_fm_keluarga', 'Daya Listrik', orientation='h')
-                st.plotly_chart(fig, use_container_width=True)
-                tbl = create_summary_table(data, 'kategori_fm_keluarga', 'count', 'daya_listrik')
-                st.dataframe(tbl, use_container_width=True, hide_index=True)
-        
-        with col2:
-            st.subheader("Fasilitas BAB")
-            if 'fasilitas_bab' in df_keluarga.columns:
-                data = df_keluarga.groupby(['fasilitas_bab', 'kategori_fm_keluarga']).size().reset_index(name='count')
-                data = apply_label(data, 'fasilitas_bab', LABEL_FASILITAS_BAB)
-                fig = create_stacked_bar(data, 'fasilitas_bab', 'kategori_fm_keluarga', 'Fasilitas BAB', orientation='h')
-                st.plotly_chart(fig, use_container_width=True)
-                tbl = create_summary_table(data, 'kategori_fm_keluarga', 'count', 'fasilitas_bab')
-                st.dataframe(tbl, use_container_width=True, hide_index=True)
-        
-        st.markdown("---")
-        
-        # SUMBER AIR MINUM & BAHAN BAKAR
-        col1, col2 = st.columns(2)
-        with col1:
-            st.subheader("Sumber Air Minum")
-            if 'sumber_air' in df_keluarga.columns:
-                data = df_keluarga.groupby(['sumber_air', 'kategori_fm_keluarga']).size().reset_index(name='count')
-                data = apply_label(data, 'sumber_air', LABEL_SUMBER_AIR)
-                fig = create_stacked_bar(data, 'sumber_air', 'kategori_fm_keluarga', 'Sumber Air Minum', orientation='h')
-                st.plotly_chart(fig, use_container_width=True)
-                tbl = create_summary_table(data, 'kategori_fm_keluarga', 'count', 'sumber_air')
-                st.dataframe(tbl, use_container_width=True, hide_index=True)
-        
-        with col2:
-            st.subheader("Bahan Bakar Memasak")
-            if 'bahan_bakar' in df_keluarga.columns:
-                data = df_keluarga.groupby(['bahan_bakar', 'kategori_fm_keluarga']).size().reset_index(name='count')
-                data = apply_label(data, 'bahan_bakar', LABEL_BAHAN_BAKAR)
-                fig = create_stacked_bar(data, 'bahan_bakar', 'kategori_fm_keluarga', 'Bahan Bakar Memasak', orientation='h')
-                st.plotly_chart(fig, use_container_width=True)
-                tbl = create_summary_table(data, 'kategori_fm_keluarga', 'count', 'bahan_bakar')
-                st.dataframe(tbl, use_container_width=True, hide_index=True)
-    
-    # TAB 6: BANTUAN SOSIAL + DISABILITAS
-    with tab6:
         st.subheader("Cakupan Penerimaan Bantuan Sosial")
         bansos_cols = [
             ('bantuan_sembako', 'Sembako/BPNT'), ('bantuan_pkh', 'PKH'),
@@ -741,11 +658,9 @@ def main():
         
         st.markdown("---")
         
-        # DISABILITAS - DENGAN KATEGORI FM
         st.subheader("Data Penyandang Disabilitas")
         
         if 'jenis_disabilitas' in df_filtered.columns:
-            # Status Disabilitas dengan kategori FM
             df_temp = df_filtered.copy()
             df_temp['status_disabilitas'] = df_temp['jenis_disabilitas'].apply(
                 lambda x: 'Disabilitas' if str(x) in ['1','2','3','4','5'] else 'Tidak Disabilitas'
@@ -761,7 +676,6 @@ def main():
                 tbl = create_summary_table(data, 'kategori_fm', 'count', 'status_disabilitas')
                 st.dataframe(tbl, use_container_width=True, hide_index=True)
             
-            # Jenis Disabilitas dengan kategori FM (hanya yang disabilitas)
             disabilitas_mask = df_filtered['jenis_disabilitas'].isin(['1','2','3','4','5'])
             if disabilitas_mask.sum() > 0:
                 st.subheader("Jenis Disabilitas")
@@ -777,8 +691,10 @@ def main():
                     tbl = create_summary_table(data, 'kategori_fm', 'count', 'jenis_disabilitas')
                     st.dataframe(tbl, use_container_width=True, hide_index=True)
     
-    # TAB 7: KEBUTUHAN LAYANAN
-    with tab7:
+    # =========================================================================
+    # TAB 6: KEBUTUHAN LAYANAN (Tanpa Total)
+    # =========================================================================
+    with tab6:
         st.subheader("Kebutuhan Layanan")
         
         kebutuhan_cols = [('butuh_pangan', '🍚 Pangan'), ('butuh_sandang', '👕 Sandang'), 
