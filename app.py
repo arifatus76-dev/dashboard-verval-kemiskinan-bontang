@@ -16,7 +16,7 @@ import os
 # KONFIGURASI
 # =============================================================================
 
-FILE_CSV = "data_verval_kemiskinan.csv"
+FILE_CSV = "verval.csv"
 KOLOM_NOMOR_KK = "no_keluarga"
 KOLOM_NIK = "nik"
 KOLOM_INDIKATOR = ["ind_1", "ind_2", "ind_3", "ind_4", "ind_5", "ind_6", "ind_7", "ind_8"]
